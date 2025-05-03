@@ -104,6 +104,7 @@ const getAllPost = async (
   const skip = (Number(page) - 1) * Number(limit);
   const whereCondition = { AND: queryCondition };
   console.dir(queryCondition, { depth: null });
+  
   const result = await prisma.post.findMany({
     where: whereCondition,
     take: Number(limit),
