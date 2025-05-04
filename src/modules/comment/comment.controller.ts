@@ -37,8 +37,21 @@ const getSingleCommentbyId = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getCommentByUserId=catchAsync(async(req:Request,res:Response)=>{
+  const { userId } = req.params;
+  const result = await commentService.getCommentByUserId(userId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "comment get id successfully",
+    data: result,
+  });
+})
+
 export const commentController = {
   getSingleCommentbyId,
   getAllComment,
   createCommentIntoDB,
+  getCommentByUserId,
 };
