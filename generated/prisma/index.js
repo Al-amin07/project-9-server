@@ -214,7 +214,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "H:\\Apollo Level 2 Web Dev\\All Assingment\\Team project\\project-9-server\\generated\\prisma",
+      "value": "C:\\Users\\h\\Desktop\\Level 2\\assignment\\project_9\\server\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -228,7 +228,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "H:\\Apollo Level 2 Web Dev\\All Assingment\\Team project\\project-9-server\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\h\\Desktop\\Level 2\\assignment\\project_9\\server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -247,7 +247,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://postgres:postgre@localhost:5432/mydb?schema=public"
       }
     }
   },
