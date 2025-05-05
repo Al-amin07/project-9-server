@@ -2,6 +2,7 @@ import catchAsync from "../../utils/catchAsync";
 import { RatingService } from "./rating.service";
 import sendResponse from "../../utils/sendResponse";
 import status from "http-status";
+import { IAuthUser } from "../../interface/usercommon";
 
 const createRatingIntoDB = catchAsync(async (req, res) => {
   const result = await RatingService.createRatingIntoDB(req.body);
@@ -14,6 +15,7 @@ const createRatingIntoDB = catchAsync(async (req, res) => {
   });
 });
 
+// ---------get my rating-------------
 const getAllRating = catchAsync(async (req, res) => {
   const result = await RatingService.getAllRating();
 
@@ -36,8 +38,22 @@ const getSingleRating = catchAsync(async (req, res) => {
   });
 });
 
+// ------------getMyRating-------------
+const getMyRating = catchAsync(async (req, res) => {
+const { user } = req;
+  const result = await RatingService.getMyRating(user as IAuthUser);;
+ sendResponse(res,{
+  statusCode:status.OK,
+  success:true,
+  message:"My rating get successfully",
+  data:result
+  
+ })
+});
 export const ratingController = {
   createRatingIntoDB,
   getAllRating,
   getSingleRating,
+  getMyRating
+ 
 };
