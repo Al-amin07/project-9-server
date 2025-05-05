@@ -4,6 +4,7 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import status from "http-status";
 import { commentService } from "./comment.service";
+import { JwtPayload } from "jsonwebtoken";
 
 const createCommentIntoDB = catchAsync(async (req: Request, res: Response) => {
   const result = await commentService.createComment(req.body);
@@ -36,18 +37,19 @@ const getSingleCommentbyId = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
-const getCommentByUserId=catchAsync(async(req:Request,res:Response)=>{
-  const { userId } = req.params;
-  const result = await commentService.getCommentByUserId(userId);
+// -----------use this for get comment by userId-------------
+const getCommentByUserId = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id; 
+  const comments = await commentService.getCommentsByUserId(userId);
 
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
-    message: "comment get id successfully",
-    data: result,
+    message: "Comments retrieved successfully",
+    data: comments ,
   });
-})
+});
+
 
 export const commentController = {
   getSingleCommentbyId,
