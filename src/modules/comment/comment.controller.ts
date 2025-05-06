@@ -26,6 +26,18 @@ const getAllComment = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllUsersComment = catchAsync(async (req: Request, res: Response) => {
+  const result = await commentService.getAllUsersComment(
+    req.user as JwtPayload
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Comment get successfully",
+    data: result,
+  });
+});
 const getSingleCommentbyId = catchAsync(async (req: Request, res: Response) => {
   const { commentId } = req.params;
   const result = await commentService.getCommentId(commentId);
@@ -37,23 +49,12 @@ const getSingleCommentbyId = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-// -----------use this for get comment by userId-------------
-const getCommentByUserId = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id; 
-  const comments = await commentService.getCommentsByUserId(userId);
 
-  sendResponse(res, {
-    success: true,
-    statusCode: status.OK,
-    message: "Comments retrieved successfully",
-    data: comments ,
-  });
-});
 
 
 export const commentController = {
   getSingleCommentbyId,
   getAllComment,
   createCommentIntoDB,
-  getCommentByUserId,
+  getAllUsersComment,
 };

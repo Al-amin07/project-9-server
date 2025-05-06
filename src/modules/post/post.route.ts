@@ -16,6 +16,7 @@ route.post(
   postControllers.createMany
 );
 route.get("/", postControllers.getAllPost);
+route.get("/all", postControllers.getHomePageAllPost);
 route.get(
   "/user",
   auth(UserRole.USER, UserRole.PREMIUM),
@@ -25,6 +26,11 @@ route.patch(
   "/user/:postId",
   auth(UserRole.USER, UserRole.PREMIUM),
   postControllers.updatePostByUser
+);
+route.get(
+  "/user",
+  auth(UserRole.USER, UserRole.PREMIUM),
+  postControllers.getAllPostByUser
 );
 route.get("/admin", auth(UserRole.ADMIN), postControllers.getAllPostByAdmin);
 route.get("/:postId", postControllers.getSinglePost);

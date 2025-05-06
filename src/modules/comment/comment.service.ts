@@ -1,7 +1,7 @@
-import { JwtPayload } from "jsonwebtoken";
+
 import { Comment } from "../../../generated/prisma";
 import prisma from "../../utils/prismaProvider";
-import { User } from '../../../generated/prisma/index';
+import { JwtPayload } from "jsonwebtoken";
 const createComment = async (payload: Comment) => {
   const result = await prisma.comment.create({
     data: payload,
@@ -18,33 +18,18 @@ const getAllComment = async () => {
   const result = await prisma.comment.findMany({});
   return result;
 };
-// -----------get commentby userId-------------
-const getCommentsByUserId = async (userId: string) => {
-  return await prisma.comment.findMany({
- include:{
-  post:{
-    select:{
-      id:true,
-      title:true,
+const getAllUsersComment = async (payload: JwtPayload) => {
+  const result = await prisma.comment.findMany({
+    where: {
+      userId: payload?.id,
     },
-  },
-  user:{
-    select:{
-      id:true,
-      email:true,
-    },
-  }
- },
- orderBy:{
-  createdAt:"desc"
- }
   });
+  return result;
 };
-
 
 export const commentService = {
   createComment,
   getCommentId,
   getAllComment,
-  getCommentsByUserId,
+  getAllUsersComment,
 };
