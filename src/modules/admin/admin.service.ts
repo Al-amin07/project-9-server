@@ -1,3 +1,4 @@
+import { UserRole } from "../../../generated/prisma";
 import prisma from "../../utils/prismaProvider";
 
 const getAdminCredentials = async () => {
@@ -60,6 +61,17 @@ const getAdminCredentials = async () => {
   };
 };
 
+const makeAdmin = async (payload: { email: string }) => {
+  const result = await prisma.user.update({
+    where: { email: payload?.email },
+    data: {
+      role: UserRole.ADMIN,
+    },
+  });
+  return result;
+};
+
 export const adminServices = {
   getAdminCredentials,
+  makeAdmin,
 };

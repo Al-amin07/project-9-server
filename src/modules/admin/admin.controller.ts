@@ -14,6 +14,17 @@ const getAdminCredentials = catchAsync(async (req, res) => {
   });
 });
 
+const makeAdmin = catchAsync(async (req, res) => {
+  const result = await adminServices.makeAdmin(req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Admin credentials retrived successfully",
+    data: result,
+  });
+});
+
 export const adminControllers = {
   getAdminCredentials,
+  makeAdmin,
 };
