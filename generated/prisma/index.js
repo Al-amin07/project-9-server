@@ -185,7 +185,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\h\\Desktop\\Level 2\\assignment\\ptoject_9\\server\\generated\\prisma",
+      "value": "D:\\programming hero\\level-2\\assignment-9\\project-9-server\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -199,7 +199,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\h\\Desktop\\Level 2\\assignment\\ptoject_9\\server\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\programming hero\\level-2\\assignment-9\\project-9-server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -217,12 +217,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:postgre@localhost:5432/mydb?schema=public"
+        "value": "postgresql://postgres:123456@localhost:5432/Street-Food-Finder-&-Review?schema=public"
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserStatus {\n  ACTIVE\n  BLOCKED\n  DELETED\n}\n\nenum UserRole {\n  USER\n  PREMIUM\n  ADMIN\n}\n\nenum PostStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\n// model User{\n//   id String @id @default(uuid())\n//   fullName String?\n//   email String @unique\n//   password String\n//   role UserRole @default(USER)\n//   status UserStatus @default(ACTIVE)\n//   isDeleted Boolean @default(false)\n//   isPremium Boolean @default(false)\n//   createAt DateTime @default(now())\n//   updatedAt DateTime @updatedAt\n// }\n\nmodel User {\n  id        String     @id @default(uuid())\n  fullName  String?\n  email     String     @unique\n  password  String\n  role      UserRole   @default(USER)\n  status    UserStatus @default(ACTIVE)\n  isDeleted Boolean    @default(false)\n  posts     Post[]\n  comments  Comment[]\n  createdAt DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n}\n\nmodel Category {\n  id        String   @id @default(uuid())\n  name      String   @unique\n  posts     Post[]\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Post {\n  id          String     @id @default(uuid())\n  title       String\n  description String\n  location    String\n  image       String\n  priceRange  String // e.g. \"Low\", \"Medium\", \"High\"\n  isPremium   Boolean    @default(false)\n  status      PostStatus @default(PENDING)\n  categoryId  String\n  category    Category   @relation(fields: [categoryId], references: [id])\n  userId      String\n  user        User       @relation(fields: [userId], references: [id])\n  comments    Comment[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Comment {\n  id        String   @id @default(uuid())\n  text      String\n  userId    String\n  postId    String\n  user      User     @relation(fields: [userId], references: [id])\n  post      Post     @relation(fields: [postId], references: [id])\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "c27681dc22f107c4b8c438edb68284e96f6c30277c4b4e5f691b914db13c7e6e",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserStatus {\n  ACTIVE\n  BLOCKED\n  DELETED\n}\n\nenum UserRole {\n  USER\n  PREMIUM\n  ADMIN\n}\n\nenum PostStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\nmodel User {\n  id        String     @id @default(uuid())\n  fullName  String?\n  email     String     @unique\n  password  String\n  role      UserRole   @default(USER)\n  status    UserStatus @default(ACTIVE)\n  isDeleted Boolean    @default(false)\n  posts     Post[]\n  comments  Comment[]\n  createdAt DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n}\n\nmodel Category {\n  id        String   @id @default(uuid())\n  name      String   @unique\n  posts     Post[]\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Post {\n  id          String     @id @default(uuid())\n  title       String\n  description String\n  location    String\n  image       String\n  priceRange  String // e.g. \"Low\", \"Medium\", \"High\"\n  isPremium   Boolean    @default(false)\n  status      PostStatus @default(PENDING)\n  categoryId  String\n  category    Category   @relation(fields: [categoryId], references: [id])\n  userId      String\n  user        User       @relation(fields: [userId], references: [id])\n  comments    Comment[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Comment {\n  id        String   @id @default(uuid())\n  text      String\n  userId    String\n  postId    String\n  user      User     @relation(fields: [userId], references: [id])\n  post      Post     @relation(fields: [postId], references: [id])\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "a5f99248c92bf311ea975effca348997dab79eeb07e93a1cea1ab07fa642ceca",
   "copyEngine": true
 }
 
