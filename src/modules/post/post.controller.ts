@@ -85,7 +85,7 @@ const getSinglePost = catchAsync(async (req, res) => {
 });
 const updatePostByUser = catchAsync(async (req, res) => {
   const { postId } = req.params;
-
+  console.log({ req: req.body, postId });
   const result = await postServices.updatePostsByUser(
     postId,
     req.body,

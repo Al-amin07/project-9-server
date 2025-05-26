@@ -10,6 +10,7 @@ route.get(
   auth(UserRole.USER, UserRole.PREMIUM),
   userControllers.getUserCredential
 );
+
 route.get("/", auth(UserRole.ADMIN), userControllers.getAllUser);
 route.patch("/:userId", auth(UserRole.ADMIN), userControllers.updateUser);
 route.get("/:userId", auth(UserRole.ADMIN), userControllers.getSingleUser);

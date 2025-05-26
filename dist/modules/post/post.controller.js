@@ -88,6 +88,7 @@ const getSinglePost = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 }));
 const updatePostByUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { postId } = req.params;
+    console.log({ req: req.body, postId });
     const result = yield post_service_1.postServices.updatePostsByUser(postId, req.body, req.user);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

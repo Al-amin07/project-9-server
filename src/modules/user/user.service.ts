@@ -16,6 +16,9 @@ const getAllUser = async (paginateQuery: Record<string, unknown>) => {
       ratings: true,
       posts: true,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   return {
     data: result,

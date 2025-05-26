@@ -7,11 +7,12 @@ import { UserRole } from "../../../generated/prisma";
 const router = express.Router();
 router.get(
   "/my-comments",
-  auth(UserRole.PREMIUM, UserRole.USER),
+  auth(UserRole.USER, UserRole.PREMIUM, UserRole.USER),
   commentController.getAllUsersComment
 );
 router.get("/", commentController.getAllComment);
 router.get("/:commentId", commentController.getSingleCommentbyId);
+router.delete("/:commentId", commentController.deleteComment);
 router.post(
   "/",
   validateRequest(commentValidation.createCommentSchema),

@@ -17,6 +17,7 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const comment_service_1 = require("./comment.service");
+const pick_1 = __importDefault(require("../../utils/pick"));
 const createCommentIntoDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield comment_service_1.commentService.createComment(req.body);
     (0, sendResponse_1.default)(res, {
@@ -27,21 +28,26 @@ const createCommentIntoDB = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     });
 }));
 const getAllComment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield comment_service_1.commentService.getAllComment();
+    const paginateQuery = (0, pick_1.default)(req.query, ["page", "limit"]);
+    const result = yield comment_service_1.commentService.getAllComment(paginateQuery);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
         message: "Comment get successfully",
-        data: result,
+        data: result.data,
+        meta: result.meta,
     });
 }));
 const getAllUsersComment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield comment_service_1.commentService.getAllUsersComment(req.user);
+    const paginateQuery = (0, pick_1.default)(req.query, ["page", "limit"]);
+    console.log("paginateQuery", paginateQuery);
+    const result = yield comment_service_1.commentService.getAllUsersComment(req.user, paginateQuery);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: "Comment get successfully",
-        data: result,
+        message: "Comments get successfully",
+        data: result.data,
+        meta: result.meta,
     });
 }));
 const getSingleCommentbyId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -54,9 +60,20 @@ const getSingleCommentbyId = (0, catchAsync_1.default)((req, res) => __awaiter(v
         data: result,
     });
 }));
+const deleteComment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { commentId } = req.params;
+    const result = yield comment_service_1.commentService.deleteComment(commentId);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "comment deleted successfully",
+        data: result,
+    });
+}));
 exports.commentController = {
     getSingleCommentbyId,
     getAllComment,
     createCommentIntoDB,
     getAllUsersComment,
+    deleteComment,
 };

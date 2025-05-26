@@ -27,6 +27,9 @@ const getAllUser = (paginateQuery) => __awaiter(void 0, void 0, void 0, function
             ratings: true,
             posts: true,
         },
+        orderBy: {
+            createdAt: "desc",
+        },
     });
     return {
         data: result,

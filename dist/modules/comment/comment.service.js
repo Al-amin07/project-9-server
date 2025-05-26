@@ -26,15 +26,78 @@ const getCommentId = (id) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
-const getAllComment = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prismaProvider_1.default.comment.findMany({});
-    return result;
+const getAllComment = (paginateQuery) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page = 1, limit = 10 } = paginateQuery;
+    const skip = (Number(page) - 1) * Number(limit);
+    const take = Number(limit);
+    const result = yield prismaProvider_1.default.comment.findMany({
+        include: {
+            post: {
+                include: {
+                    category: true, // Assuming you want to include the category of the post
+                },
+            }, // Assuming you want to include the related post
+            user: true, // Assuming you want to include the user who made the comment
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+        skip,
+        take,
+    });
+    return {
+        data: result,
+        meta: {
+            page: Number(page),
+            limit: Number(limit),
+            total: yield prismaProvider_1.default.comment.count({}),
+            totalPages: Math.ceil((yield prismaProvider_1.default.comment.count({})) / Number(limit)),
+        },
+    };
 });
-const getAllUsersComment = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsersComment = (payload, paginateQuery) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page = 1, limit = 10 } = paginateQuery;
+    const skip = (Number(page) - 1) * Number(limit);
+    const take = Number(limit);
     const result = yield prismaProvider_1.default.comment.findMany({
         where: {
             userId: payload === null || payload === void 0 ? void 0 : payload.id,
         },
+        skip,
+        take,
+        orderBy: {
+            createdAt: "desc",
+        },
+        include: {
+            post: {
+                include: {
+                    category: true, // Assuming you want to include the category of the post
+                },
+            }, // Assuming you want to include the related post
+            user: true, // Assuming you want to include the user who made the comment
+        },
+    });
+    return {
+        data: result,
+        meta: {
+            page: Number(page),
+            limit: Number(limit),
+            total: yield prismaProvider_1.default.comment.count({
+                where: {
+                    userId: payload === null || payload === void 0 ? void 0 : payload.id,
+                },
+            }),
+            totalPages: Math.ceil((yield prismaProvider_1.default.comment.count({
+                where: {
+                    userId: payload === null || payload === void 0 ? void 0 : payload.id,
+                },
+            })) / Number(limit)),
+        },
+    };
+});
+const deleteComment = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prismaProvider_1.default.comment.delete({
+        where: { id },
     });
     return result;
 });
@@ -43,4 +106,5 @@ exports.commentService = {
     getCommentId,
     getAllComment,
     getAllUsersComment,
+    deleteComment,
 };

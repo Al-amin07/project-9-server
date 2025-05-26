@@ -5,6 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import status from "http-status";
 import { commentService } from "./comment.service";
 import { JwtPayload } from "jsonwebtoken";
+import pick from "../../utils/pick";
 
 const createCommentIntoDB = catchAsync(async (req: Request, res: Response) => {
   const result = await commentService.createComment(req.body);
@@ -17,25 +18,31 @@ const createCommentIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getAllComment = catchAsync(async (req: Request, res: Response) => {
-  const result = await commentService.getAllComment();
-
+  const paginateQuery = pick(req.query, ["page", "limit"]);
+  const result = await commentService.getAllComment(paginateQuery);
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
     message: "Comment get successfully",
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 const getAllUsersComment = catchAsync(async (req: Request, res: Response) => {
+  const paginateQuery = pick(req.query, ["page", "limit"]);
+
+  console.log("paginateQuery", paginateQuery);
   const result = await commentService.getAllUsersComment(
-    req.user as JwtPayload
+    req.user as JwtPayload,
+    paginateQuery
   );
 
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
-    message: "Comment get successfully",
-    data: result,
+    message: "Comments get successfully",
+    data: result.data,
+    meta: result.meta,
   });
 });
 const getSingleCommentbyId = catchAsync(async (req: Request, res: Response) => {
@@ -49,10 +56,22 @@ const getSingleCommentbyId = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const deleteComment = catchAsync(async (req: Request, res: Response) => {
+  const { commentId } = req.params;
+  const result = await commentService.deleteComment(commentId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "comment deleted successfully",
+    data: result,
+  });
+});
 
 export const commentController = {
   getSingleCommentbyId,
   getAllComment,
   createCommentIntoDB,
   getAllUsersComment,
+  deleteComment,
 };

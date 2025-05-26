@@ -286,6 +286,7 @@ const updatePostsByUser = async (
   if (!isPostExist) {
     throw new AppError(status.NOT_FOUND, "Post not found");
   }
+
   const result = await prisma.post.update({
     where: {
       id,
